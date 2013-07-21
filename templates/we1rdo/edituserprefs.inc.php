@@ -287,6 +287,10 @@ if (!$dialogembedded) { ?>
 
 						<dt><label for="edituserprefsform[nzbhandling][sabnzbd][apikey]"><?php echo _('API key for SABnzbd?'); ?></label></dt>
 						<dd><input type="input" name="edituserprefsform[nzbhandling][sabnzbd][apikey]" value="<?php echo htmlspecialchars($edituserprefsform['nzbhandling']['sabnzbd']['apikey']); ?>"></dd>
+						
+						<dt><label><?php echo _('Test SABnzbd'); ?></label></dt>
+						<dd><a href="javascript:void(0)" onclick="testSab()" class="greyButton" target="_blank" style="margin: 2px 2px 2px 2px;"><?php echo _('Test SABnzbd'); ?></a>
+						<p style="margin-left: 2px; width:210px;" id="sabresult"><?php echo _('Test result'); ?></p></dd>
 					</fieldset>
 <?php } ?>
 

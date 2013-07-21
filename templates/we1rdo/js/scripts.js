@@ -1592,3 +1592,14 @@ function applyTipTip(){
 	$(this).attr("title", "");
 	$(this).tipTip({defaultPosition: 'bottom', maxWidth: 'auto', content: $dl});
 }
+
+function testSab(){
+	$.get('?page=verifysab', 
+		{ saburl: $('[name=edituserprefsform\\[nzbhandling\\]\\[sabnzbd\\]\\[url\\]]').val(), sabkey: $('[name=edituserprefsform\\[nzbhandling\\]\\[sabnzbd\\]\\[apikey\\]]').val() }, 
+		function(data) {
+			$('#sabresult').css('background-color', data.bc);
+			$('#sabresult').text(data.text);
+		},
+		'json'
+	);
+}
