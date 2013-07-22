@@ -1338,3 +1338,25 @@ function initDatePicker() {
     } // retrieveNewerThanDate
 } // initDatePicker()
 
+function testSab(){
+	username = $('[name=edituserprefsform\\[nzbhandling\\]\\[sabnzbd\\]\\[username\\]]').val();
+	password = $('[name=edituserprefsform\\[nzbhandling\\]\\[sabnzbd\\]\\[password\\]]').val();
+	if (!(0 === username.length)) {
+		if (!(0 === password.length)) {
+			httphead = $.base64.encode(username+':'+password);
+		} else {
+			httphead = $.base64.encode(username);
+		} // if
+	} else {
+		httphead = "";
+	} // if
+	
+	$.get('?page=verifysab', 
+		{ saburl: $('[name=edituserprefsform\\[nzbhandling\\]\\[sabnzbd\\]\\[url\\]]').val(), sabkey: $('[name=edituserprefsform\\[nzbhandling\\]\\[sabnzbd\\]\\[apikey\\]]').val(), head: httphead }, 
+		function(data) {
+			$('#sabresult').css('background-color', data.bc);
+			$('#sabresult').text(data.text);
+		},
+		'json'
+	); //$.get()
+} // testSab()

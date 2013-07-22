@@ -349,6 +349,15 @@ try {
 			$page->render();
 			break;
 		} # statistics
+		
+		case 'verifysab' : {
+			$page = new SpotPage_verifysab($daoFactory, $settings, $currentSession, 
+				Array('saburl' => $req->getDef('saburl', ''),
+					'sabkey' => $req->getDef('sabkey', ''), #prevent a fuckup with SW's apikey
+					'httphead' => $req->getDef('head')));
+			$page->render();
+			break;
+		} # verifysab
 
 		default : {
 				SpotTiming::start('renderpage->case-default');
