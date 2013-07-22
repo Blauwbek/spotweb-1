@@ -1343,9 +1343,7 @@ function testSab(){
 	password = $('[name=edituserprefsform\\[nzbhandling\\]\\[sabnzbd\\]\\[password\\]]').val();
 	if (!(0 === username.length)) {
 		if (!(0 === password.length)) {
-			httphead = $.base64.encode(username+':'+password);
-		} else {
-			httphead = $.base64.encode(username);
+			httphead = username+':'+password;
 		} // if
 	} else {
 		httphead = "";

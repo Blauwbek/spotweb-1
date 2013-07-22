@@ -24,19 +24,15 @@ class SpotPage_verifysab extends SpotPage_Abs {
 			$this->_params['saburl'] = 'http://'.$this->_params['saburl'];
 		} # if
 		
-		if (!empty($this->_params['httphead']){
-			$context = stream_context_create(array(
-				'http' => array(
-					'header'  => 'Authorization: Basic' . $this->_params['httphead']
-				) #array
-			)); # array + stream_context_create
-			$output = @file_get_contents($this->_params['saburl'] . 'sabnzbd/api?mode=qstatus&apikey=' . $this->_params['sabkey'], false, $context);
+		if (!empty($this->_params['httphead'])){
+			$userpass = explode(':', $this->_params['httphead']);
+			$output = @file_get_contents($this->_params['saburl'] . "sabnzbd/api?mode=qstatus&ma_username=$userpass[0]&ma_password=$userpass[1]'");
 		} else {
 			$output = @file_get_contents($this->_params['saburl'] . 'sabnzbd/api?mode=qstatus&apikey=' . $this->_params['sabkey']);
 		} # if
 
 		if (empty($output)) {
-			$result = json_encode(array('bc' => '#f99797', 'text' => 'Failure (wrong settings?)'));
+			$result = json_encode(array('bc' => '#f99797', 'text' => 'Failure (wrong url?)'));
 		} else if (substr(trim($output), 0, 5) != 'error') {
 			$result = json_encode(array('bc' => '#cbffcb', 'text' => 'Succes!'));
 		} else {

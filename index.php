@@ -354,7 +354,7 @@ try {
 			$page = new SpotPage_verifysab($daoFactory, $settings, $currentSession, 
 				Array('saburl' => $req->getDef('saburl', ''),
 					'sabkey' => $req->getDef('sabkey', ''), #prevent a fuckup with SW's apikey
-					'httphead' => $req->getDef('head')));
+					'httphead' => $req->getDef('head', '')));
 			$page->render();
 			break;
 		} # verifysab

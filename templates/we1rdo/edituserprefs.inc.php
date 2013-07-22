@@ -297,7 +297,7 @@ if (!$dialogembedded) { ?>
 						
 						<dt><label><?php echo _('Test SABnzbd'); ?></label></dt>
 						<dd><a href="javascript:void(0)" onclick="testSab()" class="greyButton" target="_blank" style="margin: 2px 2px 2px 2px;"><?php echo _('Test SABnzbd'); ?></a>
-						<p style="margin-left: 2px; width:210px;" id="sabresult"><?php echo _('Test result'); ?></p></dd>
+						<p style="margin-left: 2px; width:210px; padding-top: 3px; padding-bottom: 3px; text-align: center;" id="sabresult"><?php echo _('Test result'); ?></p></dd>
 					</fieldset>
 <?php } ?>
 
