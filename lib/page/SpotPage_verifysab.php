@@ -1,6 +1,7 @@
 <?php
 class SpotPage_verifysab extends SpotPage_Abs {
 	private $_params;
+	private $httpreq = new Services_Providers_Http(null);
 	
 	public function __construct(Dao_Factory $daoFactory, Services_Settings_Base $settings, array $currentSession, array $params) {
 		parent::__construct($daoFactory, $settings, $currentSession);
@@ -26,17 +27,19 @@ class SpotPage_verifysab extends SpotPage_Abs {
 		
 		if (!empty($this->_params['httphead'])){
 			$userpass = explode(':', $this->_params['httphead']);
-			$output = @file_get_contents($this->_params['saburl'] . "sabnzbd/api?mode=qstatus&ma_username=$userpass[0]&ma_password=$userpass[1]'");
+			$url = $this->_params['saburl'] . "sabnzbd/api?mode=qstatus&ma_username=$userpass[0]&ma_password=$userpass[1]";
 		} else {
-			$output = @file_get_contents($this->_params['saburl'] . 'sabnzbd/api?mode=qstatus&apikey=' . $this->_params['sabkey']);
+			$url = $this->_params['saburl'] . 'sabnzbd/api?mode=qstatus&apikey=' . $this->_params['sabkey'];
 		} # if
-
-		if (empty($output)) {
+		
+		$resp = $httpreq->perform($url, null);
+		
+		if (!$resp['successful']) {
 			$result = json_encode(array('bc' => '#f99797', 'text' => 'Failure (wrong url?)'));
-		} else if (substr(trim($output), 0, 5) != 'error') {
+		} else if ($resp['successful'] && substr(trim($resp['data']), 0, 5) != 'error') {
 			$result = json_encode(array('bc' => '#cbffcb', 'text' => 'Succes!'));
 		} else {
-			$result = json_encode(array('bc' => '#f99797', 'text' => 'Something went wrong: ' . trim($output)));
+			$result = json_encode(array('bc' => '#f99797', 'text' => 'Something went wrong: ' . trim($resp['data'])));
 		} # if
 
 		echo $result;
