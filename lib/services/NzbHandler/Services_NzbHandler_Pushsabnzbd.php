@@ -66,7 +66,7 @@ class Services_NzbHandler_Pushsabnzbd extends Services_NzbHandler_abs
 	{
 		$api = "getStatus,pauseQueue,resumeQueue,setSpeedLimit,moveDown,moveUp"
 			. ",moveTop,moveBottom,setCategory,setPriority,delete,rename"
-			. ",pause,resume,getVersion";
+			. ",pause,resume,getVersion,verify";
 		
 		return $api;
 	} # hasApiSupport
@@ -385,6 +385,25 @@ class Services_NzbHandler_Pushsabnzbd extends Services_NzbHandler_abs
 	} # getVersion
 	
 	/*
+	* Verify settings
+	* NULL = HTTP unsuccessful
+	* FALSE = Wrong settings
+	* TRUE = Successful and right data
+	*/
+	public function verify()
+	{
+		$resp = $this->querySabnzbdExt('mode=qstatus');
+		
+		if (!$resp['successful']) {
+			return array('res' => NULL, 'data' => $resp['data']);
+		} else if ($resp['successful'] && !strpos($resp['data'], 'error')) {
+			return array('res' => FALSE, 'data' => $resp['data']);
+		} else {
+			return array('res' => TRUE, 'data' => $resp['data']);
+		} # if
+	} # verify
+	
+	/*
 	 * Method used to query the SABnzbd API methods
 	 */
 	private function querySabnzbd($request)
@@ -398,5 +417,21 @@ class Services_NzbHandler_Pushsabnzbd extends Services_NzbHandler_abs
 
 		return $tmpData['data'];
 	} # querySabnzbd
+	
+	/*
+	 * Extended method used to query the SABnzbd API methods
+	 * Full response is returned.
+	 */
+	private function querySabnzbdExt($request)
+	{
+		$url = $this->_sabnzbd['url'] . "api?" . $request . '&apikey=' . $this->_sabnzbd['apikey'] . '&output=json';
+
+		$svcProvHttp = new Services_Providers_Http(null);
+		$svcProvHttp->setUsername($this->_username);
+		$svcProvHttp->setPassword($this->_password);
+		$tmpData = $svcProvHttp->perform($url, null);
+
+		return $tmpData;
+	} # querySabnzbdExt
 		
 } # class Services_NzbHandler_Pushsabnzbd

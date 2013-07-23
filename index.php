@@ -351,10 +351,18 @@ try {
 		} # statistics
 		
 		case 'verifysab' : {
-			$page = new SpotPage_verifysab($daoFactory, $settings, $currentSession, 
-				Array('saburl' => $req->getDef('saburl', ''),
-					'sabkey' => $req->getDef('sabkey', ''), #prevent a fuckup with SW's apikey
-					'httphead' => $req->getDef('head', '')));
+			# alter some settings to actually test the new settings
+			$currentSession['user']['prefs']['nzbhandling']['sabnzbd']['url'] = $req->getDef('saburl', '')
+			$currentSession['user']['prefs']['nzbhandling']['sabnzbd']['apikey'] = $req->getDef('sabkey', '')
+			
+			if ($exp = explode(base64_decode($req->getDef('head', '')), ':'))
+				list($currentSession['user']['prefs']['nzbhandling']['sabnzbd']['username'], $currentSession['user']['prefs']['nzbhandling']['sabnzbd']['password']) = $exp;
+			else
+				list($currentSession['user']['prefs']['nzbhandling']['sabnzbd']['username'], $currentSession['user']['prefs']['nzbhandling']['sabnzbd']['password']) = array('', '');
+			
+			$currentSession['user']['prefs']['nzbhandling']['action'] = $req->getDef('action', '');
+			
+			$page = new SpotPage_verifysab($daoFactory, $settings, $currentSession);
 			$page->render();
 			break;
 		} # verifysab

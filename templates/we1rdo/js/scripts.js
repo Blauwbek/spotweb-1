@@ -1350,7 +1350,7 @@ function testSab(){
 	} // if
 	
 	$.get('?page=verifysab', 
-		{ saburl: $('[name=edituserprefsform\\[nzbhandling\\]\\[sabnzbd\\]\\[url\\]]').val(), sabkey: $('[name=edituserprefsform\\[nzbhandling\\]\\[sabnzbd\\]\\[apikey\\]]').val(), head: httphead }, 
+		{ saburl: $('[name=edituserprefsform\\[nzbhandling\\]\\[sabnzbd\\]\\[url\\]]').val(), sabkey: $('[name=edituserprefsform\\[nzbhandling\\]\\[sabnzbd\\]\\[apikey\\]]').val(), head: httphead, action: $('nzbhandlingselect').val() }, 
 		function(data) {
 			$('#sabresult').css('background-color', data.bc);
 			$('#sabresult').text(data.text);
