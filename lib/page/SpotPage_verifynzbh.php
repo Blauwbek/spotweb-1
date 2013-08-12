@@ -1,5 +1,5 @@
 <?php
-class SpotPage_verifysab extends SpotPage_Abs {
+class SpotPage_verifynzbh extends SpotPage_Abs {
 	private $_params;
 	
 	public function __construct(Dao_Factory $daoFactory, Services_Settings_Base $settings, array $currentSession) {

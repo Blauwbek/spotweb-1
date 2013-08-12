@@ -350,7 +350,7 @@ try {
 			break;
 		} # statistics
 		
-		case 'verifysab' : {
+		case 'verifynzbh' : {
 			# alter some settings to actually test the new settings
 			$currentSession['user']['prefs']['nzbhandling']['sabnzbd']['url'] = $req->getDef('saburl', '')
 			$currentSession['user']['prefs']['nzbhandling']['sabnzbd']['apikey'] = $req->getDef('sabkey', '')
@@ -362,10 +362,10 @@ try {
 			
 			$currentSession['user']['prefs']['nzbhandling']['action'] = $req->getDef('action', '');
 			
-			$page = new SpotPage_verifysab($daoFactory, $settings, $currentSession);
+			$page = new SpotPage_verifynzbh($daoFactory, $settings, $currentSession);
 			$page->render();
 			break;
-		} # verifysab
+		} # verifynzbh
 
 		default : {
 				SpotTiming::start('renderpage->case-default');

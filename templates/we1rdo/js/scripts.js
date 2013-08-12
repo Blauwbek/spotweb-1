@@ -1338,7 +1338,7 @@ function initDatePicker() {
     } // retrieveNewerThanDate
 } // initDatePicker()
 
-function testSab(){
+function testNzbH(){
 	username = $('[name=edituserprefsform\\[nzbhandling\\]\\[sabnzbd\\]\\[username\\]]').val();
 	password = $('[name=edituserprefsform\\[nzbhandling\\]\\[sabnzbd\\]\\[password\\]]').val();
 	if (!(0 === username.length)) {
