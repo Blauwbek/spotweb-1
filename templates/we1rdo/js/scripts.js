@@ -1339,22 +1339,47 @@ function initDatePicker() {
 } // initDatePicker()
 
 function testNzbH(){
-	username = $('[name=edituserprefsform\\[nzbhandling\\]\\[sabnzbd\\]\\[username\\]]').val();
-	password = $('[name=edituserprefsform\\[nzbhandling\\]\\[sabnzbd\\]\\[password\\]]').val();
-	if (!(0 === username.length)) {
-		if (!(0 === password.length)) {
-			httphead = username+':'+password;
-		} // if
-	} else {
-		httphead = "";
-	} // if
+	switch ($('#nzbhandlingselect').val()) {
 	
-	$.get('?page=verifysab', 
-		{ saburl: $('[name=edituserprefsform\\[nzbhandling\\]\\[sabnzbd\\]\\[url\\]]').val(), sabkey: $('[name=edituserprefsform\\[nzbhandling\\]\\[sabnzbd\\]\\[apikey\\]]').val(), head: httphead, action: $('nzbhandlingselect').val() }, 
+	case 'push-sabnzbd':
+		username = $('[name=edituserprefsform\\[nzbhandling\\]\\[sabnzbd\\]\\[username\\]]').val();
+		password = $('[name=edituserprefsform\\[nzbhandling\\]\\[sabnzbd\\]\\[password\\]]').val();
+		if (!(0 === username.length)) {
+			if (!(0 === password.length)) {
+				httphead = username+':'+password;
+			} // if
+		} else {
+			httphead = "";
+		} // if
+		
+		args = { url: $('[name=edituserprefsform\\[nzbhandling\\]\\[sabnzbd\\]\\[url\\]]').val(), key: $('[name=edituserprefsform\\[nzbhandling\\]\\[sabnzbd\\]\\[apikey\\]]').val(), head: httphead, action: $('#nzbhandlingselect').val() };
+		break;
+	case 'nzbget':
+		args = { username: $('[name=edituserprefsform\\[nzbhandling\\]\\[nzbget\\]\\[username\\]]').val(), password: $('[name=edituserprefsform\\[nzbhandling\\]\\[nzbget\\]\\[password\\]]').val(), host: $('[name=edituserprefsform\\[nzbhandling\\]\\[nzbget\\]\\[host\\]]').val(), port: $('[name=edituserprefsform\\[nzbhandling\\]\\[nzbget\\]\\[port\\]]').val(), timeout: $('[name=edituserprefsform\\[nzbhandling\\]\\[nzbget\\]\\[timeout\\]]').val(), action: $('#nzbhandlingselect').val() };
+		break;
+	case 'save':
+		args = { path: $('[name=edituserprefsform\\[nzbhandling\\]\\[local_dir\\]'.val(), action: $('#nzbhandlingselect').val() }
+		break;
+	default:
+		break;
+	}
+	
+	$.get('?page=verifynzbh', 
+		args, 
 		function(data) {
-			$('#sabresult').css('background-color', data.bc);
-			$('#sabresult').text(data.text);
+			$('#testresult').css('background-color', data.bc);
+			$('#testresult').text(data.text);
 		},
 		'json'
 	); //$.get()
 } // testSab()
+
+function canVerify(){
+	if ($('#nzbhandlingselect').val() == "sabnzbd-push" || $('#nzbhandlingselect').val() == "sabnzbd" || $('#nzbhandlingselect').val() == "save") {
+		$("#testnzbh_field").show();
+		$("#testresult").show();
+	} else {
+		$("#testnzbh_field").hide();
+		$("#testresult").hide();
+	}
+}

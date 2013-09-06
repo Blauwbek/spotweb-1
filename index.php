@@ -352,16 +352,35 @@ try {
 		
 		case 'verifynzbh' : {
 			# alter some settings to actually test the new settings
-			$currentSession['user']['prefs']['nzbhandling']['sabnzbd']['url'] = $req->getDef('saburl', '')
-			$currentSession['user']['prefs']['nzbhandling']['sabnzbd']['apikey'] = $req->getDef('sabkey', '')
-			
-			if ($exp = explode(base64_decode($req->getDef('head', '')), ':'))
-				list($currentSession['user']['prefs']['nzbhandling']['sabnzbd']['username'], $currentSession['user']['prefs']['nzbhandling']['sabnzbd']['password']) = $exp;
-			else
-				list($currentSession['user']['prefs']['nzbhandling']['sabnzbd']['username'], $currentSession['user']['prefs']['nzbhandling']['sabnzbd']['password']) = array('', '');
-			
 			$currentSession['user']['prefs']['nzbhandling']['action'] = $req->getDef('action', '');
 			
+			switch($currentSession['user']['prefs']['nzbhandling']['action']){
+				case 'push-sabnzbd' : {
+					$currentSession['user']['prefs']['nzbhandling']['sabnzbd']['url'] = $req->getDef('saburl', '');
+					$currentSession['user']['prefs']['nzbhandling']['sabnzbd']['apikey'] = $req->getDef('sabkey', '');
+					
+					if ($exp = explode($req->getDef('head', ''), ':'))
+						list($currentSession['user']['prefs']['nzbhandling']['sabnzbd']['username'], $currentSession['user']['prefs']['nzbhandling']['sabnzbd']['password']) = $exp;
+					else
+						list($currentSession['user']['prefs']['nzbhandling']['sabnzbd']['username'], $currentSession['user']['prefs']['nzbhandling']['sabnzbd']['password']) = array('', '');
+					break;
+				}
+				
+				case 'nzbget' : {
+					$currentSession['user']['prefs']['nzbhandling']['nzbget']['timeout'] = $req->getDef('timeout', '');
+					$currentSession['user']['prefs']['nzbhandling']['nzbget']['host'] = $req->getDef('host', '');
+					$currentSession['user']['prefs']['nzbhandling']['nzbget']['port'] = $req->getDef('port', '');
+					$currentSession['user']['prefs']['nzbhandling']['nzbget']['username'] = $req->getDef('username', '');
+					$currentSession['user']['prefs']['nzbhandling']['nzbget']['password'] = $req->getDef('password', '');
+					break;
+				}
+				
+				case 'save' : {
+					$currentSession['user']['prefs']['nzbhandling']['local_dir'] = $req->getDef('path', '');
+					break;
+				}
+			}
+				
 			$page = new SpotPage_verifynzbh($daoFactory, $settings, $currentSession);
 			$page->render();
 			break;

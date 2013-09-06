@@ -31,5 +31,10 @@ class Services_NzbHandler_Save extends Services_NzbHandler_abs
 		} # if
 		
 	} # processNzb
+	
+	public function verify()
+	{
+		return is_writable($this->_localDir);
+	}
 
 } # class Services_NzbHandler_Save

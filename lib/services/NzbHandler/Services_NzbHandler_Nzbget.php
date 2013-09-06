@@ -387,5 +387,17 @@ class Services_NzbHandler_Nzbget extends Services_NzbHandler_abs
 	{
 		return $this->sendrequest('version', null);
 	} # getVersion
+	
+	public function verify()
+	{
+		try{
+			$status = $this->sendrequest('status', null);
+			if($status){
+				return array('res' => TRUE, 'data' => $resp['data']);
+			}
+			} catch (Exception $e){
+				return array('res' => FALSE, 'data' => $e->getMessage());
+			}
+	}
 
 } # class Services_NzbHandler_Nzbget

@@ -238,7 +238,7 @@ if (!$dialogembedded) { ?>
 					<!-- NZBHANDLING -->
 					<dt><label for="edituserprefsform[nzbhandling][action]"><?php echo _('What shall we do with NZB files?'); ?></label></dt>
 					<dd>
-						<select id="nzbhandlingselect" name="edituserprefsform[nzbhandling][action]">
+						<select id="nzbhandlingselect" name="edituserprefsform[nzbhandling][action]" onchange="canVerify()">
 							<option data-fields="" <?php if ($edituserprefsform['nzbhandling']['action'] == "disable") { echo 'selected="selected"'; } ?> value="disable"><?php echo _('No intergration with download client'); ?></option>
 <?php if ($tplHelper->allowed(SpotSecurity::spotsec_download_integration, 'push-sabnzbd')) { ?>
 							<option data-fields="sabnzbd" <?php if ($edituserprefsform['nzbhandling']['action'] == "push-sabnzbd") { echo 'selected="selected"'; } ?> value="push-sabnzbd"><?php echo _('Call SABnzbd throught HTTP by SpotWeb'); ?></option>
@@ -294,10 +294,6 @@ if (!$dialogembedded) { ?>
 
                         <dt><label for="edituserprefsform[nzbhandling][sabnzbd][password]"><?php echo _('Password for sabnzbd?'); ?></label></dt>
                         <dd><input type="password" name="edituserprefsform[nzbhandling][sabnzbd][password]" value="<?php echo htmlspecialchars($edituserprefsform['nzbhandling']['sabnzbd']['password']); ?>"></dd>
-						
-						<dt><label><?php echo _('Test SABnzbd'); ?></label></dt>
-						<dd><a href="javascript:void(0)" onclick="testNzbH()" class="greyButton" target="_blank" style="margin: 2px 2px 2px 2px;"><?php echo _('Test SABnzbd'); ?></a>
-						<p style="margin-left: 2px; width:210px; padding-top: 3px; padding-bottom: 3px; text-align: center;" id="sabresult"><?php echo _('Test result'); ?></p></dd>
 					</fieldset>
 <?php } ?>
 
@@ -319,6 +315,9 @@ if (!$dialogembedded) { ?>
 						<dd><input type="password" name="edituserprefsform[nzbhandling][nzbget][password]" value="<?php echo htmlspecialchars($edituserprefsform['nzbhandling']['nzbget']['password']); ?>"></dd>
 					</fieldset>
 <?php } ?>
+					<dt><label><?php echo _('Test NZB Handler'); ?></label></dt>
+					<dd><a href="javascript:void(0)" onclick="testNzbH()" class="greyButton" target="_blank" style="margin: 2px 2px 2px 2px;" id="testnzbh_field"><?php echo _('Test NZB Handler'); ?></a>
+					<p style="margin-left: 2px; width:210px; padding-top: 3px; padding-bottom: 3px; text-align: center;" id="testresult"><?php echo _('Test result'); ?></p></dd>
 				</dl>
 			</fieldset>
 		</div>
